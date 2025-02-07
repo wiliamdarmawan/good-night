@@ -182,6 +182,33 @@ RSpec.describe 'clock-ins', type: :request do
             )
           end
         end
+
+        context 'when there is only one record' do
+          let!(:clock_in) { create(:clock_in, user: user) }
+
+          run_test! do
+            expect(response_body).to match({
+              data: [
+                {
+                  id: clock_in.id.to_s,
+                  type: 'clockIn',
+                  attributes: {
+                    createdAt: clock_in.created_at.as_json,
+                    type: clock_in.clock_in_type,
+                  },
+                  relationships: {},
+                }
+              ],
+              meta: {
+                total: 1,
+                pages: 1,
+              },
+              links: {
+                self: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[size\]=10\z},
+              }
+            })
+          end
+        end
       end
     end
   end
