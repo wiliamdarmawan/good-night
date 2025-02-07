@@ -45,6 +45,25 @@ RSpec.describe 'clock-ins', type: :request do
           end
         end
       end
+
+      response(200, 'get user clock in logs') do
+        context "when there isn't any clock in logs" do
+          run_test! do
+            expect(response_body).to match(
+              {
+                data: [],
+                meta: {
+                  total: 0,
+                  pages: 1
+                },
+                links: {
+                  self: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[size\]=10\z}
+                }
+              }
+            )
+          end
+        end
+      end
     end
   end
 end
