@@ -290,4 +290,49 @@ RSpec.describe 'clock-ins', type: :request do
       end
     end
   end
+
+  path '/users/{user_id}/clock-ins/wake' do
+    parameter name: 'user_id', in: :path, type: :string, description: 'user_id'
+
+    post('logs user wake up time') do
+      tags 'Wake Up'
+      consumes 'application/json'
+
+      response(400, 'Invalid params') do
+        context 'when user has already woken up before' do
+          let!(:clock_in) { create(:clock_in, user: user, clock_in_type: :wake) }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: 'User has already woken up',
+                    errorCode: 'GN-1',
+                    errorHandling: "Please ensure you've entered the correct parameters"
+                  }
+                ]
+              }
+            )
+          end
+        end
+
+        context "when user hasn't slept yet" do
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: "User hasn't slept yet",
+                    errorCode: 'GN-1',
+                    errorHandling: "Please ensure you've entered the correct parameters"
+                  }
+                ]
+              }
+            )
+          end
+        end
+      end
+    end
+  end
 end
