@@ -160,6 +160,26 @@ RSpec.describe 'follows', type: :request do
           end
         end
       end
+
+      response(500, 'Internal Server Error') do
+        context 'when something unexpected happened' do
+          before { allow(GetUserService).to receive(:call).and_raise(StandardError) }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: 'An unexpected error occurred',
+                    errorCode: 'GN-999',
+                    errorHandling: "Please contact support"
+                  }
+                ]
+              }
+            )
+          end
+        end
+      end
     end
   end
 end
