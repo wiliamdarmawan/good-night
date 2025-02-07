@@ -86,6 +86,39 @@ RSpec.describe 'clock-ins', type: :request do
             )
           end
         end
+
+        context 'when clock ins log exists & pagination params number given' do
+          before { (1..25).map { |i| create(:clock_in, user: user, created_at: Time.now - i.hours) } }
+
+          let(:pagination_params) do
+            {
+              page: {
+                number: 2
+              }
+            }
+          end
+
+          run_test! do
+            expect(response_body[:data].count).to eq(10)
+            expect(Time.parse(response_body[:data].first[:attributes][:createdAt])).to be > Time.parse(response_body[:data].second[:attributes][:createdAt])
+            expect(response_body[:data]).to all(include(:id, :type, :attributes, :relationships))
+            expect(response_body[:meta]).to match(
+              {
+                total: 25,
+                pages: 3
+              }
+            )
+            expect(response_body[:links]).to match(
+              {
+                first: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[size\]=10\z},
+                prev: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[size\]=10\z},
+                self: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[number\]=2&page\[size\]=10\z},
+                next: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[number\]=3&page\[size\]=10\z},
+                last: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[number\]=3&page\[size\]=10\z}
+              }
+            )
+          end
+        end
       end
     end
   end
