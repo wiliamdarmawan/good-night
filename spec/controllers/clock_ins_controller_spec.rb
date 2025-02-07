@@ -119,6 +119,35 @@ RSpec.describe 'clock-ins', type: :request do
             )
           end
         end
+
+        context 'when clock in logs exists & pagination params size given' do
+          before { (1..25).map { |i| create(:clock_in, user: user, created_at: Time.now - i.hours) } }
+
+          let(:pagination_params) do
+            {
+              page: {
+                size: 30,
+              }
+            }
+          end
+
+          run_test! do
+            expect(response_body[:data].count).to eq(25)
+            expect(Time.parse(response_body[:data].first[:attributes][:createdAt])).to be > Time.parse(response_body[:data].second[:attributes][:createdAt])
+            expect(response_body[:data]).to all(include(:id, :type, :attributes, :relationships))
+            expect(response_body[:meta]).to match(
+              {
+                total: 25,
+                pages: 1
+              }
+            )
+            expect(response_body[:links]).to match(
+              {
+                self: %r{\Ahttp?://[^/]+/users/#{user_id}/clock-ins\?page\[size\]=30\z},
+              }
+            )
+          end
+        end
       end
     end
   end
