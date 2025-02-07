@@ -212,4 +212,33 @@ RSpec.describe 'clock-ins', type: :request do
       end
     end
   end
+
+  path '/users/{user_id}/clock-ins/sleep' do
+    parameter name: 'user_id', in: :path, type: :string, description: 'user_id'
+
+    post('logs user sleep time') do
+      tags 'Sleep'
+      consumes 'application/json'
+
+      response(400, 'Invalid params') do
+        context 'when user is sleeping' do
+          let!(:clock_in) { create(:clock_in, user: user, clock_in_type: :sleep) }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: 'User is sleeping',
+                    errorCode: 'GN-1',
+                    errorHandling: "Please ensure you've entered the correct parameters"
+                  }
+                ]
+              }
+            )
+          end
+        end
+      end
+    end
+  end
 end
