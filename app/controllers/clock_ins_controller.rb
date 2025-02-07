@@ -24,4 +24,18 @@ class ClockInsController < ApplicationController
 
     render json: ClockInSerializer.new(clock_in, { params: { show_relationships: true } }).serializable_hash.to_json, status: :created
   end
+
+  def wake
+    user_id = parsed_params[:user_id]
+    user = GetUserService.call(user_id)
+
+    raise InvalidParamsError, 'User has already woken up' if user.clock_ins&.last&.wake?
+    raise InvalidParamsError, "User hasn't slept yet" unless user.clock_ins&.last&.sleep?
+
+    clock_in = user.wake!
+
+    CalculateSleepRecordService.call(wake_clock_in: clock_in, sleep_clock_in: user.clock_ins.sleep.last)
+
+    render json: ClockInSerializer.new(clock_in, { params: { show_relationships: true } }).serializable_hash.to_json, status: :created
+  end
 end
