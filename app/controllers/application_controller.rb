@@ -4,6 +4,21 @@ class ApplicationController < ActionController::API
   include Paginable
   rescue_from StandardError, with: :handle_error
 
+  protected
+
+  def check_camel_case(attributes)
+    attributes.each do |key, _|
+      if key.to_s != key.to_s.camelize(:lower)
+        raise InvalidParamsError,
+              "Params #{key} must be in camelCase(#{key.to_s.camelize(:lower)})"
+      end
+    end
+  end
+
+  def parsed_params
+    params.to_unsafe_h.deep_transform_keys!(&:underscore).with_indifferent_access
+  end
+
   private
 
   def handle_error(error)
