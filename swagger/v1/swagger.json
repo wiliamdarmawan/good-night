@@ -1,0 +1,2474 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Good Night API",
+    "version": "v1"
+  },
+  "paths": {
+    "/users/{user_id}/clock-ins": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "description": "user_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "user clock in logs",
+        "tags": [
+          "Clock Ins"
+        ],
+        "parameters": [
+          {
+            "name": "pagination_params",
+            "in": "query",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "page": {
+                  "type": "object",
+                  "properties": {
+                    "number": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "when user does not exist": {
+                "value": {
+                }
+              },
+              "when there isn't any clock in logs": {
+                "value": {
+                }
+              },
+              "when clock ins log exists & no pagination params given": {
+                "value": {
+                }
+              },
+              "when clock ins log exists & pagination params number given": {
+                "value": {
+                  "page": {
+                    "number": 2
+                  }
+                }
+              },
+              "when clock in logs exists & pagination params size given": {
+                "value": {
+                  "page": {
+                    "size": 30
+                  }
+                }
+              },
+              "when clock in logs exists & pagination params number & size given": {
+                "value": {
+                  "page": {
+                    "number": 2,
+                    "size": 5
+                  }
+                }
+              },
+              "when there is only one record": {
+                "value": {
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "get user clock in logs",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when there isn't any clock in logs": {
+                    "value": {
+                      "data": [
+
+                      ],
+                      "meta": {
+                        "total": 0,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/1/clock-ins?page[size]=10"
+                      }
+                    }
+                  },
+                  "when clock ins log exists & no pagination params given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "1",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T11:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "2",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T10:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "3",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T09:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "4",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T08:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "5",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T07:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "6",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T06:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "7",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T05:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "8",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T04:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "9",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T03:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "10",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T02:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 15,
+                        "pages": 2
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/2/clock-ins?page[size]=10",
+                        "next": "http://www.example.com/users/2/clock-ins?page[number]=2&page[size]=10",
+                        "last": "http://www.example.com/users/2/clock-ins?page[number]=2&page[size]=10"
+                      }
+                    }
+                  },
+                  "when clock ins log exists & pagination params number given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "26",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T01:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "27",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T00:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "28",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T23:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "29",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T22:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "30",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T21:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "31",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T20:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "32",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T19:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "33",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T18:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "34",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T17:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "35",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T16:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 25,
+                        "pages": 3
+                      },
+                      "links": {
+                        "first": "http://www.example.com/users/3/clock-ins?page[size]=10",
+                        "prev": "http://www.example.com/users/3/clock-ins?page[size]=10",
+                        "self": "http://www.example.com/users/3/clock-ins?page[number]=2&page[size]=10",
+                        "next": "http://www.example.com/users/3/clock-ins?page[number]=3&page[size]=10",
+                        "last": "http://www.example.com/users/3/clock-ins?page[number]=3&page[size]=10"
+                      }
+                    }
+                  },
+                  "when clock in logs exists & pagination params size given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "41",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T11:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "42",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T10:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "43",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T09:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "44",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T08:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "45",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T07:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "46",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T06:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "47",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T05:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "48",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T04:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "49",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T03:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "50",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T02:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "51",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T01:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "52",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T00:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "53",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T23:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "54",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T22:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "55",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T21:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "56",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T20:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "57",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T19:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "58",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T18:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "59",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T17:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "60",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T16:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "61",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T15:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "62",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T14:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "63",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T13:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "64",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T12:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "65",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-06T11:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 25,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/4/clock-ins?page[size]=30"
+                      }
+                    }
+                  },
+                  "when clock in logs exists & pagination params number & size given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "71",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T06:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "72",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T05:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "73",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T04:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "74",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T03:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        },
+                        {
+                          "id": "75",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T02:11:33.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 25,
+                        "pages": 5
+                      },
+                      "links": {
+                        "first": "http://www.example.com/users/5/clock-ins?page[size]=5",
+                        "prev": "http://www.example.com/users/5/clock-ins?page[size]=5",
+                        "self": "http://www.example.com/users/5/clock-ins?page[number]=2&page[size]=5",
+                        "next": "http://www.example.com/users/5/clock-ins?page[number]=3&page[size]=5",
+                        "last": "http://www.example.com/users/5/clock-ins?page[number]=5&page[size]=5"
+                      }
+                    }
+                  },
+                  "when there is only one record": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "91",
+                          "type": "clockIn",
+                          "attributes": {
+                            "createdAt": "2025-02-07T12:11:34.000Z",
+                            "type": "wake"
+                          },
+                          "relationships": {
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 1,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/6/clock-ins?page[size]=10"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/clock-ins/wake": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "description": "user_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "summary": "logs user wake up time",
+        "tags": [
+          "Wake Up"
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user has already woken up before": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User has already woken up",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  },
+                  "when user hasn't slept yet": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User hasn't slept yet",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when something unexpected happened": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "An unexpected error occurred",
+                          "errorCode": "GN-999",
+                          "errorHandling": "Please contact support"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "successfully wake up",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user has sleep and not woke up yet": {
+                    "value": {
+                      "data": {
+                        "id": "94",
+                        "type": "clockIn",
+                        "attributes": {
+                          "createdAt": "2025-02-07T12:11:34.000Z",
+                          "type": "wake"
+                        },
+                        "relationships": {
+                          "user": {
+                            "data": {
+                              "id": "10",
+                              "type": "user"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/clock-ins/sleep": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "description": "user_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "summary": "logs user sleep time",
+        "tags": [
+          "Sleep"
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user is sleeping": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User is sleeping",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "successfully sleeps",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user has not sleep yet": {
+                    "value": {
+                      "data": {
+                        "id": "96",
+                        "type": "clockIn",
+                        "attributes": {
+                          "createdAt": "2025-02-07T12:11:34.000Z",
+                          "type": "sleep"
+                        },
+                        "relationships": {
+                          "user": {
+                            "data": {
+                              "id": "12",
+                              "type": "user"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/followings": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "description": "user_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "summary": "follow another user",
+        "tags": [
+          "Follows"
+        ],
+        "parameters": [
+
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when given non camelCase params": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "Params following_id must be in camelCase(followingId)",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  },
+                  "when followingId is not present": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "Following ID cannot be null",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  },
+                  "when user tries to follow themselves": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User cannot follow themselves",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  },
+                  "when user has already follow the user to be followed": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User has been followed before",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  },
+                  "when user to follow does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User to follow not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when something unexpected happened": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "An unexpected error occurred",
+                          "errorCode": "GN-999",
+                          "errorHandling": "Please contact support"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "successfully follow other user",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user and the user to be followed exists": {
+                    "value": {
+                      "data": {
+                        "id": "2",
+                        "type": "follow",
+                        "attributes": {
+                          "createdAt": "2025-02-07T12:11:34.000Z"
+                        },
+                        "relationships": {
+                          "follower": {
+                            "data": {
+                              "id": "25",
+                              "type": "user"
+                            }
+                          },
+                          "following": {
+                            "data": {
+                              "id": "26",
+                              "type": "user"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "followingId": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "followingId"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "attributes"
+                    ]
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              },
+              "examples": {
+                "when given non camelCase params": {
+                  "summary": "when given non camelCase params",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "following_id": 14
+                      }
+                    }
+                  }
+                },
+                "when followingId is not present": {
+                  "summary": "when followingId is not present",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "followingId": null
+                      }
+                    }
+                  }
+                },
+                "when user tries to follow themselves": {
+                  "summary": "when user tries to follow themselves",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "followingId": 17
+                      }
+                    }
+                  }
+                },
+                "when user has already follow the user to be followed": {
+                  "summary": "when user has already follow the user to be followed",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "followingId": 19
+                      }
+                    }
+                  }
+                },
+                "when user does not exist": {
+                  "summary": "when user does not exist",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "followingId": 20
+                      }
+                    }
+                  }
+                },
+                "when user to follow does not exist": {
+                  "summary": "when user to follow does not exist",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "followingId": "foo"
+                      }
+                    }
+                  }
+                },
+                "when something unexpected happened": {
+                  "summary": "when something unexpected happened",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "followingId": 24
+                      }
+                    }
+                  }
+                },
+                "when user and the user to be followed exists": {
+                  "summary": "when user and the user to be followed exists",
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "followingId": 26
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/followings/{user_to_unfollow_id}": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "description": "user_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "user_to_unfollow_id",
+          "in": "path",
+          "description": "user_to_unfollow_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "delete": {
+        "summary": "unfollow another user",
+        "tags": [
+          "Unfollows"
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid params",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user tries to unfollow themselves": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User cannot unfollow themselves",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  },
+                  "when user hasn't followed the user to unfollow yet": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User hasn't been followed before",
+                          "errorCode": "GN-1",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  },
+                  "when user to unfollow does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User to unfollow not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "successfully unfollow other user"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "description": "user_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "user followings feed",
+        "tags": [
+          "User Followings Feed"
+        ],
+        "parameters": [
+          {
+            "name": "pagination_params",
+            "in": "query",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "page": {
+                  "type": "object",
+                  "properties": {
+                    "number": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "when user does not exist": {
+                "value": {
+                }
+              },
+              "when something unexpected happened": {
+                "value": {
+                }
+              },
+              "when user is not following anyone": {
+                "value": {
+                }
+              },
+              "when user's followings does not have any sleep record": {
+                "value": {
+                }
+              },
+              "when user's followings has sleep records & no pagination params given": {
+                "value": {
+                }
+              },
+              "when users's followings has sleep records & pagination params number given": {
+                "value": {
+                  "page": {
+                    "number": 2
+                  }
+                }
+              },
+              "when users's followings has sleep records & pagination params size given": {
+                "value": {
+                  "page": {
+                    "size": 30
+                  }
+                }
+              },
+              "when users's followings has sleep records & pagination params number & size given": {
+                "value": {
+                  "page": {
+                    "number": 2,
+                    "size": 5
+                  }
+                }
+              },
+              "when there is only one sleep record from followed users": {
+                "value": {
+                }
+              },
+              "when there are sleep records from multiple followed users": {
+                "value": {
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Record not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user does not exist": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "User not found",
+                          "errorCode": "GN-2",
+                          "errorHandling": "Please ensure you've entered the correct parameters"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when something unexpected happened": {
+                    "value": {
+                      "errors": [
+                        {
+                          "error": "An unexpected error occurred",
+                          "errorCode": "GN-999",
+                          "errorHandling": "Please contact support"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "get user followings feed",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "when user is not following anyone": {
+                    "value": {
+                      "data": [
+
+                      ],
+                      "meta": {
+                        "total": 0,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/38?page[size]=10"
+                      }
+                    }
+                  },
+                  "when user's followings does not have any sleep record": {
+                    "value": {
+                      "data": [
+
+                      ],
+                      "meta": {
+                        "total": 0,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/40?page[size]=10"
+                      }
+                    }
+                  },
+                  "when user's followings has sleep records & no pagination params given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "16",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:56:34.000Z",
+                            "duration": "15 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "15",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:57:34.000Z",
+                            "duration": "14 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "14",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:58:34.000Z",
+                            "duration": "13 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "13",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:59:34.000Z",
+                            "duration": "12 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "12",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:00:34.000Z",
+                            "duration": "11 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "11",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:01:34.000Z",
+                            "duration": "10 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "10",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:02:34.000Z",
+                            "duration": "9 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "9",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:03:34.000Z",
+                            "duration": "8 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "8",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:04:34.000Z",
+                            "duration": "7 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "7",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:05:34.000Z",
+                            "duration": "6 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "43",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 15,
+                        "pages": 2
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/42?page[size]=10",
+                        "next": "http://www.example.com/users/42?page[number]=2&page[size]=10",
+                        "last": "http://www.example.com/users/42?page[number]=2&page[size]=10"
+                      }
+                    }
+                  },
+                  "when users's followings has sleep records & pagination params number given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "31",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:56:34.000Z",
+                            "duration": "15 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "30",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:57:34.000Z",
+                            "duration": "14 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "29",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:58:34.000Z",
+                            "duration": "13 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "28",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:59:34.000Z",
+                            "duration": "12 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "27",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:00:34.000Z",
+                            "duration": "11 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "26",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:01:34.000Z",
+                            "duration": "10 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "25",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:02:34.000Z",
+                            "duration": "9 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "24",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:03:34.000Z",
+                            "duration": "8 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "23",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:04:34.000Z",
+                            "duration": "7 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "22",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:05:34.000Z",
+                            "duration": "6 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "45",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 25,
+                        "pages": 3
+                      },
+                      "links": {
+                        "first": "http://www.example.com/users/44?page[size]=10",
+                        "prev": "http://www.example.com/users/44?page[size]=10",
+                        "self": "http://www.example.com/users/44?page[number]=2&page[size]=10",
+                        "next": "http://www.example.com/users/44?page[number]=3&page[size]=10",
+                        "last": "http://www.example.com/users/44?page[number]=3&page[size]=10"
+                      }
+                    }
+                  },
+                  "when users's followings has sleep records & pagination params size given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "66",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:46:34.000Z",
+                            "duration": "25 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "65",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:47:34.000Z",
+                            "duration": "24 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "64",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:48:34.000Z",
+                            "duration": "23 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "63",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:49:34.000Z",
+                            "duration": "22 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "62",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:50:34.000Z",
+                            "duration": "21 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "61",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:51:34.000Z",
+                            "duration": "20 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "60",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:52:34.000Z",
+                            "duration": "19 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "59",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:53:34.000Z",
+                            "duration": "18 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "58",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:54:34.000Z",
+                            "duration": "17 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "57",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:55:34.000Z",
+                            "duration": "16 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "56",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:56:34.000Z",
+                            "duration": "15 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "55",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:57:34.000Z",
+                            "duration": "14 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "54",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:58:34.000Z",
+                            "duration": "13 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "53",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:59:34.000Z",
+                            "duration": "12 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "52",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:00:34.000Z",
+                            "duration": "11 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "51",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:01:34.000Z",
+                            "duration": "10 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "50",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:02:34.000Z",
+                            "duration": "9 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "49",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:03:34.000Z",
+                            "duration": "8 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "48",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:04:34.000Z",
+                            "duration": "7 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "47",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:05:34.000Z",
+                            "duration": "6 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "46",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:06:34.000Z",
+                            "duration": "5 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "45",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:07:34.000Z",
+                            "duration": "4 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "44",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:08:34.000Z",
+                            "duration": "3 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "43",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:09:34.000Z",
+                            "duration": "2 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "42",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:10:34.000Z",
+                            "duration": "1 Minute"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "47",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 25,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/46?page[size]=30"
+                      }
+                    }
+                  },
+                  "when users's followings has sleep records & pagination params number & size given": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "86",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:51:34.000Z",
+                            "duration": "20 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "49",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "85",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:52:34.000Z",
+                            "duration": "19 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "49",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "84",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:53:34.000Z",
+                            "duration": "18 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "49",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "83",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:54:34.000Z",
+                            "duration": "17 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "49",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "82",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T11:55:34.000Z",
+                            "duration": "16 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "49",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 25,
+                        "pages": 5
+                      },
+                      "links": {
+                        "first": "http://www.example.com/users/48?page[size]=5",
+                        "prev": "http://www.example.com/users/48?page[size]=5",
+                        "self": "http://www.example.com/users/48?page[number]=2&page[size]=5",
+                        "next": "http://www.example.com/users/48?page[number]=3&page[size]=5",
+                        "last": "http://www.example.com/users/48?page[number]=5&page[size]=5"
+                      }
+                    }
+                  },
+                  "when there is only one sleep record from followed users": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "92",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:01:34.000Z",
+                            "duration": "10 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "51",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 1,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/50?page[size]=10"
+                      }
+                    }
+                  },
+                  "when there are sleep records from multiple followed users": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "94",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:01:34.000Z",
+                            "duration": "10 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "55",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "93",
+                          "type": "sleepRecord",
+                          "attributes": {
+                            "wakeTime": "2025-02-07T12:11:34.000Z",
+                            "sleepTime": "2025-02-07T12:06:34.000Z",
+                            "duration": "5 Minutes"
+                          },
+                          "relationships": {
+                            "user": {
+                              "data": {
+                                "id": "54",
+                                "type": "user"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "total": 2,
+                        "pages": 1
+                      },
+                      "links": {
+                        "self": "http://www.example.com/users/52?page[size]=10"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://{defaultHost}",
+      "variables": {
+        "defaultHost": {
+          "default": "localhost:3000"
+        }
+      }
+    }
+  ]
+}
