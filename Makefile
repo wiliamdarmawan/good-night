@@ -1,3 +1,5 @@
 setup:
-	bundle exec rails db:drop db:create db:schema:load db:migrate
-	bundle exec rails db:seed
+	rails db:drop db:create db:rollback db:migrate
+	rails db:seed
+run-rswag:
+	SWAGGER_DRY_RUN=false rails rswag PATTERN="spec/controllers/*"
