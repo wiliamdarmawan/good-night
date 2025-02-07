@@ -162,6 +162,35 @@ RSpec.describe 'users', type: :request do
             )
           end
         end
+
+        context "when users's followings has sleep records & pagination params size given" do
+          before { (1..25).map { |i| create(:sleep_record, user: followed_user, sleep_time: i.minutes.ago, wake_time: Time.now) } }
+
+          let(:pagination_params) do
+            {
+              page: {
+                size: 30,
+              }
+            }
+          end
+
+          run_test! do
+            expect(response_body[:data].count).to eq(25)
+            expect(response_body[:data].first[:attributes][:duration].to_i).to be > response_body[:data].second[:attributes][:duration].to_i
+            expect(response_body[:data]).to all(include(:id, :type, :attributes, :relationships))
+            expect(response_body[:meta]).to match(
+              {
+                total: 25,
+                pages: 1
+              }
+            )
+            expect(response_body[:links]).to match(
+              {
+                self: %r{\Ahttp?://[^/]+/users/#{user_id}\?page\[size\]=30\z},
+              }
+            )
+          end
+        end
       end
     end
   end
