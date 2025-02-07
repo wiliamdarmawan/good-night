@@ -180,6 +180,40 @@ RSpec.describe 'follows', type: :request do
           end
         end
       end
+
+      response(201, 'successfully follow other user') do
+        context 'when user and the user to be followed exists' do
+          run_test! do
+            follows = Follow.last
+
+            expect(response_body).to match(
+              {
+                data: {
+                  id: follows.id.to_s,
+                  type: 'follow',
+                  attributes: {
+                    createdAt: follows.created_at.as_json
+                  },
+                  relationships: {
+                    follower: {
+                      data: {
+                        id: follows.follower.id.to_s,
+                        type: 'user'
+                      }
+                    },
+                    following: {
+                      data: {
+                        id: follows.following.id.to_s,
+                        type: 'user'
+                      }
+                    }
+                  }
+                }
+              }
+            )
+          end
+        end
+      end
     end
   end
 end
