@@ -373,6 +373,40 @@ RSpec.describe 'clock-ins', type: :request do
           end
         end
       end
+
+      response(201, 'successfully wake up') do
+        context 'when user has sleep and not woke up yet' do
+          let!(:sleep_time) { create(:clock_in, user: user, clock_in_type: :sleep, created_at: 1.day.ago) }
+
+          run_test! do
+            wake_time = user.clock_ins.last
+            sleep_record = SleepRecord.where(user: user).last
+
+            expect(response_body).to match(
+              {
+                data: {
+                  id: wake_time.id.to_s,
+                  type: 'clockIn',
+                  attributes: {
+                    createdAt: wake_time.created_at.as_json,
+                    type: 'wake',
+                  },
+                  relationships: {
+                    user: {
+                      data: {
+                        id: wake_time.user.id.to_s,
+                        type: 'user',
+                      }
+                    }
+                  }
+                }
+              }
+            )
+            expect(sleep_record.wake_time).to eq(wake_time.created_at)
+            expect(sleep_record.sleep_time).to eq(sleep_time.created_at)
+          end
+        end
+      end
     end
   end
 end
