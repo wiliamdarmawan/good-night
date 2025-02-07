@@ -307,6 +307,15 @@ RSpec.describe 'follows', type: :request do
           end
         end
       end
+
+      response(204, 'successfully unfollow other user') do
+        context 'when user and the user to be unfollowed exists' do
+          run_test! do
+            expect(user.following?(user_to_unfollow)).to be false
+            expect(response_body).to match({})
+          end
+        end
+      end
     end
   end
 end
