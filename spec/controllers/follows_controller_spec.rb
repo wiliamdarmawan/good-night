@@ -216,4 +216,59 @@ RSpec.describe 'follows', type: :request do
       end
     end
   end
+
+  path '/users/{user_id}/followings/{user_to_unfollow_id}' do
+    parameter name: 'user_id', in: :path, type: :string, description: 'user_id'
+    parameter name: 'user_to_unfollow_id', in: :path, type: :string, description: 'user_to_unfollow_id'
+
+    delete('unfollow another user') do
+      tags 'Unfollows'
+      consumes 'application/json'
+
+      let(:user) { create(:user).reload }
+      let(:user_id) { user.id }
+      let(:user_to_unfollow) { create(:user).reload }
+      let(:user_to_unfollow_id) { user_to_unfollow.id }
+
+      before { user.follow(user_to_unfollow) }
+
+      response(400, 'Invalid params') do
+        context 'when user tries to unfollow themselves' do
+          let(:user_to_unfollow_id) { user.id }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: 'User cannot unfollow themselves',
+                    errorCode: 'GN-1',
+                    errorHandling: "Please ensure you've entered the correct parameters"
+                  }
+                ]
+              }
+            )
+          end
+        end
+
+        context "when user hasn't followed the user to unfollow yet" do
+          before { user.unfollow(user_to_unfollow) }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: "User hasn't been followed before",
+                    errorCode: 'GN-1',
+                    errorHandling: "Please ensure you've entered the correct parameters"
+                  }
+                ]
+              }
+            )
+          end
+        end
+      end
+    end
+  end
 end
