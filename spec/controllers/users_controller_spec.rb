@@ -260,6 +260,75 @@ RSpec.describe 'users', type: :request do
             })
           end
         end
+
+        context 'when there are sleep records from multiple followed users' do
+          let(:followed_user1) { create(:user) }
+          let(:followed_user2) { create(:user) }
+          let(:user_not_followed) { create(:user) }
+
+          let!(:sleep_record1) { create(:sleep_record, user: followed_user1, sleep_time: 5.minutes.ago, wake_time: Time.now) }
+          let!(:sleep_record2) { create(:sleep_record, user: followed_user2, sleep_time: 10.minutes.ago, wake_time: Time.now) }
+          let!(:sleep_record3) { create(:sleep_record, user: followed_user2, sleep_time: 20.minutes.ago, wake_time: Time.now, created_at: 1.week.ago - 10.minutes) }
+          let!(:sleep_record4) { create(:sleep_record, user: user_not_followed, sleep_time: 30.minutes.ago, wake_time: Time.now) }
+
+          before do
+            user.follow(followed_user1)
+            user.follow(followed_user2)
+          end
+
+          run_test! do
+            expect(response_body[:data].first[:id]).to eq(sleep_record2.id.to_s) # Records with longer durations are ranked higher
+            expect(response_body[:data].first[:attributes][:duration].to_i).to be > response_body[:data].second[:attributes][:duration].to_i
+
+            # Doesn't include sleep record 3 because it's over 1 week ago
+            # Doesn't include sleep record 4 because it's from a user not followed
+            expect(response_body).to match({
+              data: [
+                {
+                  id: sleep_record2.id.to_s,
+                  type: 'sleepRecord',
+                  attributes: {
+                    wakeTime: sleep_record2.wake_time.as_json,
+                    sleepTime: sleep_record2.sleep_time.as_json,
+                    duration: TimeDifference.between(sleep_record2.wake_time, sleep_record2.sleep_time).humanize,
+                  },
+                  relationships: {
+                    user: {
+                      data: {
+                        id: followed_user2.id.to_s,
+                        type: 'user',
+                      },
+                    },
+                  },
+                },
+                {
+                  id: sleep_record1.id.to_s,
+                  type: 'sleepRecord',
+                  attributes: {
+                    wakeTime: sleep_record1.wake_time.as_json,
+                    sleepTime: sleep_record1.sleep_time.as_json,
+                    duration: TimeDifference.between(sleep_record1.wake_time, sleep_record1.sleep_time).humanize,
+                  },
+                  relationships: {
+                    user: {
+                      data: {
+                        id: followed_user1.id.to_s,
+                        type: 'user',
+                      },
+                    },
+                  },
+                }
+              ],
+              meta: {
+                total: 2,
+                pages: 1,
+              },
+              links: {
+                self: %r{\Ahttp?://[^/]+/users/#{user_id}\?page\[size\]=10\z},
+              }
+            })
+          end
+        end
       end
     end
   end
