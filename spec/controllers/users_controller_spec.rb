@@ -225,6 +225,41 @@ RSpec.describe 'users', type: :request do
             )
           end
         end
+
+        context 'when there is only one sleep record from followed users' do
+          let!(:sleep_record) { create(:sleep_record, user: followed_user, sleep_time: 10.minutes.ago, wake_time: Time.now) }
+
+          run_test! do
+            expect(response_body).to match({
+              data: [
+                {
+                  id: sleep_record.id.to_s,
+                  type: 'sleepRecord',
+                  attributes: {
+                    wakeTime: sleep_record.wake_time.as_json,
+                    sleepTime: sleep_record.sleep_time.as_json,
+                    duration: TimeDifference.between(sleep_record.wake_time, sleep_record.sleep_time).humanize,
+                  },
+                  relationships: {
+                    user: {
+                      data: {
+                        id: followed_user.id.to_s,
+                        type: 'user',
+                      },
+                    },
+                  },
+                }
+              ],
+              meta: {
+                total: 1,
+                pages: 1,
+              },
+              links: {
+                self: %r{\Ahttp?://[^/]+/users/#{user_id}\?page\[size\]=10\z},
+              }
+            })
+          end
+        end
       end
     end
   end
