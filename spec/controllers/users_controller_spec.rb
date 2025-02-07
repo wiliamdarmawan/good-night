@@ -65,6 +65,31 @@ RSpec.describe 'users', type: :request do
           end
         end
       end
+
+      response(200, 'get user followings feed') do
+        let(:followed_user) { create(:user) }
+
+        before { user.follow(followed_user) }
+
+        context "when user is not following anyone" do
+          before { user.unfollow(followed_user) }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                data: [],
+                meta: {
+                  total: 0,
+                  pages: 1
+                },
+                links: {
+                  self: %r{\Ahttp?://[^/]+/users/#{user_id}\?page\[size\]=10\z}
+                }
+              }
+            )
+          end
+        end
+      end
     end
   end
 end
