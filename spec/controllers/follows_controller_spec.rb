@@ -122,6 +122,44 @@ RSpec.describe 'follows', type: :request do
           end
         end
       end
+
+      response(404, 'Record not found') do
+        context 'when user does not exist' do
+          let(:user_id) { 'foo' }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: 'User not found',
+                    errorCode: 'GN-2',
+                    errorHandling: "Please ensure you've entered the correct parameters"
+                  }
+                ]
+              }
+            )
+          end
+        end
+
+        context 'when user to follow does not exist' do
+          before { params[:data][:attributes][:followingId] = 'foo' }
+
+          run_test! do
+            expect(response_body).to match(
+              {
+                errors: [
+                  {
+                    error: 'User to follow not found',
+                    errorCode: 'GN-2',
+                    errorHandling: "Please ensure you've entered the correct parameters"
+                  }
+                ]
+              }
+            )
+          end
+        end
+      end
     end
   end
 end
