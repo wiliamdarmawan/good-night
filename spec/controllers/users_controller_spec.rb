@@ -89,6 +89,23 @@ RSpec.describe 'users', type: :request do
             )
           end
         end
+
+        context "when user's followings does not have any sleep record" do
+          run_test! do
+            expect(response_body).to match(
+              {
+                data: [],
+                meta: {
+                  total: 0,
+                  pages: 1
+                },
+                links: {
+                  self: %r{\Ahttp?://[^/]+/users/#{user_id}\?page\[size\]=10\z}
+                }
+              }
+            )
+          end
+        end
       end
     end
   end
