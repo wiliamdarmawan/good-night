@@ -30,4 +30,12 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
+
+  def wake!
+    clock_ins.create!(clock_in_type: :wake)
+  end
+
+  def sleep!
+    clock_ins.create!(clock_in_type: :sleep)
+  end
 end
